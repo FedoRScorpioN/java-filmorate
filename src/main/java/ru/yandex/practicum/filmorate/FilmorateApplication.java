@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//Спринт № 9. Ревью № 1.
 @SpringBootApplication
 public class FilmorateApplication {
 

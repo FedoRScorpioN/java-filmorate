@@ -34,7 +34,6 @@ public class UserController {
         if (!users.containsKey(user.getId())) {
             throw new ValidationException("Такого пользователя не существует. Невозможно обновить данные");
         }
-        checkUsers(user);
         users.put(user.getId(), user);
         log.info("Данные пользователя {} успешно обновлены", user.getName());
         return user;
@@ -53,6 +52,10 @@ public class UserController {
         if (user.getName() == null) {
             user.setName(user.getLogin());
         }
+        if (user.getEmail().isBlank() || user.getEmail().contains(" ") || !user.getEmail().contains("@")) {
+            log.warn("Почта: {}, не указана, содержит пробелы или не содержит символ @.", user.getEmail());
+            throw new ValidationException("Почта не может быть пустой и содержать пробелы, а символ @ обязателен.");
+        }
         if (user.getBirthday().isAfter(LocalDate.now())) {
             log.warn("Указанная Дата рождения: {}", user.getBirthday());
             throw new ValidationException("Дата рождения не может быть в будущем.");
@@ -63,7 +66,7 @@ public class UserController {
         boolean exists = users.values().stream()
                 .anyMatch(user -> alreadyExistsUsers(userToAdd, user));
         if (exists) {
-            log.warn("E-mail пользователя: {}", userToAdd);
+            log.warn("E-mail пользователя: {} уже существует.", userToAdd);
             throw new ValidationException("Пользователь с таким E-mail или Логином уже существует");
         }
     }

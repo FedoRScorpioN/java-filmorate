@@ -16,7 +16,7 @@ class FilmControllerTest {
 
     @BeforeEach
     void start() {
-        filmController = new FilmController();
+        //filmController = new FilmController();
         validationException = new ValidationException("Исключение");
     }
 

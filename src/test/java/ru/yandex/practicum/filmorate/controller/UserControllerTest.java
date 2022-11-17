@@ -16,7 +16,7 @@ class UserControllerTest {
 
     @BeforeEach
     void start() {
-        userController = new UserController();
+        //userController = new UserController();
         validationException = new ValidationException("Исключение:");
     }
 

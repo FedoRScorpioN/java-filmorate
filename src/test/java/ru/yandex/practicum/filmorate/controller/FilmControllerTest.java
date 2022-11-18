@@ -1,8 +1,10 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import ru.yandex.practicum.filmorate.exception.InternalException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -10,15 +12,12 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class FilmControllerTest {
+    @Autowired
     FilmController filmController;
     ValidationException validationException;
-
-    @BeforeEach
-    void start() {
-        //filmController = new FilmController();
-        validationException = new ValidationException("Исключение");
-    }
+    InternalException internalException;
 
     @Test
     void ThrowAnExceptionIfTheMovieNameIsNull() {
@@ -78,7 +77,7 @@ class FilmControllerTest {
 
     @Test
     void creatingMovieWith1CharacterDescription() {
-        Film film = new Film("Титаник", "А",
+        Film film = new Film("Титаник-2", "А",
                 LocalDate.of(2022, 11, 5), 120);
         filmController.createFilms(film);
         Assertions.assertEquals(1, film.getDescription().length());
@@ -89,22 +88,22 @@ class FilmControllerTest {
     void throwAnExceptionIfTheMovieDurationIs0() {
         Film film = new Film("Фильм", "Описание фильма",
                 LocalDate.of(2022, 11, 5), 0);
-        validationException = assertThrows(
-                ValidationException.class,
+        internalException = assertThrows(
+                InternalException.class,
                 () -> filmController.createFilms(film));
         Assertions.assertEquals("Продолжительность фильма должна быть положительной.",
-                validationException.getMessage());
+                internalException.getMessage());
     }
 
     @Test
     void throwAnExceptionIfTheMovieDurationIsNegative() {
         Film film = new Film("Фильм", "Описание фильма",
                 LocalDate.of(2022, 11, 5), -100);
-        validationException = assertThrows(
-                ValidationException.class,
+        internalException = assertThrows(
+                InternalException.class,
                 () -> filmController.createFilms(film));
         Assertions.assertEquals("Продолжительность фильма должна быть положительной.",
-                validationException.getMessage());
+                internalException.getMessage());
     }
 
     @Test

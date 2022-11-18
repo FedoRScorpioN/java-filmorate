@@ -50,7 +50,7 @@ public class UserController {
         return userService.removeFriends(firstId, secondId);
     }
 
-    @GetMapping("{id}/friends")
+    @GetMapping("/{id}/friends")
     public List<User> getFriendsListById(@PathVariable int id) {
         return userService.getFriendsListById(id);
     }

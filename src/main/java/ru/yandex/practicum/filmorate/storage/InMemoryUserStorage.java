@@ -48,9 +48,6 @@ public class InMemoryUserStorage implements UserStorage {
             log.warn("Логин пользователя: {}", user.getLogin());
             throw new ValidationException("Логин не может быть пустым и содержать пробелы.");
         }
-        if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
         if (user.getEmail().isBlank() || user.getEmail().contains(" ") || !user.getEmail().contains("@")) {
             log.warn("Почта: {}, не указана, содержит пробелы или не содержит символ @.", user.getEmail());
             throw new ValidationException("Почта не может быть пустой и содержать пробелы, а символ @ обязателен.");
@@ -58,6 +55,10 @@ public class InMemoryUserStorage implements UserStorage {
         if (user.getBirthday().isAfter(LocalDate.now())) {
             log.warn("Указанная Дата рождения: {}", user.getBirthday());
             throw new ValidationException("Дата рождения не может быть в будущем.");
+        }
+        if (user.getName() == null || user.getName().isEmpty() || user.getName().isBlank()) {
+            user.setName(user.getLogin());
+            log.info("Не указано Имя пользователя. В качестве Имени пользователя использован Логин: {}", user.getLogin());
         }
     }
 

@@ -56,7 +56,7 @@ public class FilmService {
     }
 
     public Film removeLikeFilms(int filmId, int userId) {
-        if (!filmStorage.getFilms().containsKey(filmId)) {
+        if (filmStorage.getByIdFilms(filmId) == null)  {
             throw new NotFoundException("Фильм не найден.");
         }
         if (!filmStorage.getByIdFilms(filmId).getUserLikes().contains(userId)) {

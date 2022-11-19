@@ -91,7 +91,7 @@ public class UserService {
     }
 
     public List<User> getCommonFriendsList(int firstId, int secondId) {
-        if (!userStorage.getUsers().containsKey(firstId) || !userStorage.getUsers().containsKey(secondId)) {
+        if (userStorage.getByIdUser(firstId) == null || userStorage.getByIdUser(secondId) == null) {
             throw new NotFoundException(String.format("Пользователь под номером: %d или под номером: %d" +
                     "не существует.", firstId, secondId));
         }

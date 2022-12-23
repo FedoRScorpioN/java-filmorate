@@ -10,12 +10,19 @@ public interface UserStorage {
 
     User updateUser(User user);
 
-    User getByIdUser(int id);
+    User getByIdUser(Integer id);
 
-    User deleteByIdUser(int id);
+    User deleteByIdUser(Integer id);
+
+    boolean deleteUser(User user);
 
     Collection<User> findAllUsers();
 
+    boolean addFriend(Integer firstId, Integer secondId);
+
+    boolean deleteFriend(Integer userId, Integer friendId);
+
     Map<Integer, User> getUsers();
 
+    User getUser(final Integer id);
 }
